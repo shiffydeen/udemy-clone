@@ -57,7 +57,7 @@ if (cart.length < 1) {
                 )
             })}
             <div className='cart-container-footer'>
-                <h2>Total: ${total_amount}</h2>
+                <h2>Total: ${total_amount.toFixed(2)}</h2>
                 <Link to="/cart">
                     <button>Go to cart</button>
                 </Link>

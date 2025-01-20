@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useToastContext } from "../context/toast_context";
+import { Link } from "react-router";
 
 const ToastNotification = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -33,7 +34,7 @@ const ToastNotification = () => {
             }
             return prev + 2; // Adjust this for smoother progress
           });
-        },20);
+        },30);
       };
 
       if (!isHovered) startProgress();
@@ -58,9 +59,11 @@ const ToastNotification = () => {
             <button onClick={closeToast} className="close-btn">✕</button>
         </div>
       </div>
+      <Link to="/cart">
         <button className="cart-btn">
             Go to Cart
         </button>
+      </Link>
       <div className={`timer-bar ${disableTransition ? "no-transition" : ""}`}
         style={{ width: `${progress}%` }}
         />
@@ -126,6 +129,7 @@ const ToastWrapper = styled.div`
         border-radius: 5px;
         cursor: pointer;
         font-size: 14px;
+        font-weight: bold;
         display: block;
 
         &:hover {

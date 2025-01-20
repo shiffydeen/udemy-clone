@@ -128,9 +128,11 @@ const Navbar = () => {
                 // onMouseEnter={openCartMenu}
                 // onMouseLeave={closeCartMenu}
               >
-                <div className="cart-icon">
-                  <MdShoppingCart />
-                </div>
+                <Link to="/cart">
+                  <div className="cart-icon">
+                    <MdShoppingCart />
+                  </div>
+                </Link>
                 <span className="item-count-badge">{total_items}</span>
                 <CartHover />
               </div>

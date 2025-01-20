@@ -8,8 +8,10 @@ import { useToastContext } from '../context/toast_context';
 
 const Course = (props) => {
   const {id, image, course_name, creator, actual_price, discounted_price, rating_count, rating_star, category} = props;
-  const {addToCart} = useCartContext();
+  const {addToCart, cart} = useCartContext();
   const {handleCartandToast} = useToastContext();
+  
+  
   // const courseName = useRef();
   // const {openModal} = useModalContext();
 
@@ -21,12 +23,20 @@ const Course = (props) => {
     
   // }
 
+  // console.log(cart)
+
   const handleClick = () => {
     addToCart(id, image, course_name, creator, discounted_price, category);
     // handleCartandToast(course_name);
     handleCartandToast(course_name);
-
   }
+
+  const inCart = (itemId) => {
+    if (cart.find((item) => item.courseID === itemId)) return "Added to Cart"
+    // console.log(id)
+    return "Add to cart"
+  }
+  
 
   return (
     <CourseCard>
@@ -48,7 +58,7 @@ const Course = (props) => {
       </div>
       <div className='item-btns flex'>
         <Link to = {`/courses/${id}`} className = "item-btn see-details-btn">See details</Link>
-        <Link className='item-btn add-to-cart-btn' onClick={handleClick}>Add to cart</Link>
+        <Link className={`item-btn add-to-cart-btn ${cart.find(item => item.courseID === id) ? "disabled" : ""}`} onClick={handleClick}>{inCart(id)}</Link>
       </div>
     </CourseCard>
   )
@@ -104,6 +114,9 @@ const CourseCard = styled.div`
     justify-self: flex-start;
     padding: 4px 8px 30px 18px;
     margin-top: auto;
+
+    
+
     .item-btn{
       font-size: 15px;
       display: inline-block;
@@ -111,6 +124,15 @@ const CourseCard = styled.div`
       font-weight: 700;
       transition: var(--transition);
       white-space: nowrap;
+
+      &.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      font-size: 15px;
+      display: inline-block;
+      padding: 6px 16px;
+      font-weight: 700;
+    }
 
       &.see-details-btn{
         background-color: transparent;
