@@ -5,11 +5,23 @@ import { useToastContext } from "../context/toast_context";
 const ToastNotification = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [disableTransition, setDisableTransition] = useState(false);
+  const [intervalId, setIntervalId] = useState(null);
 
   const {isToastOpen, message, closeToast} = useToastContext()
 
   useEffect(() => {
     if (isToastOpen && message) {
+        setDisableTransition(true);
+        setProgress(0);
+        clearInterval(intervalId);
+
+        // Allow time for the browser to apply the `no-transition` class
+      const resetTransition = setTimeout(() => {
+        setDisableTransition(false); // Re-enable transition
+        setProgress(2); // Start progress
+      }, 50); // Small delay (50ms)
+
       let interval;
       const startProgress = () => {
         interval = setInterval(() => {
@@ -21,14 +33,17 @@ const ToastNotification = () => {
             }
             return prev + 2; // Adjust this for smoother progress
           });
-        }, 100);
+        },20);
       };
 
       if (!isHovered) startProgress();
 
-      return () => clearInterval(interval);
+      return () => {
+        clearInterval(interval)
+        clearTimeout(resetTransition);
+      };
     }
-  }, [isToastOpen, isHovered, closeToast]);
+  }, [isToastOpen, isHovered, closeToast, message]);
 
   if (!isToastOpen || !message ) return null;
 
@@ -38,17 +53,17 @@ const ToastNotification = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="content">
-        <p>{message}</p>
         <div className="actions">
-          <button className="cart-btn">
-            Go to Cart
-          </button>
-          <button onClick={closeToast} className="close-btn">
-            ✕
-          </button>
+            <p><span className="message">{message}</span>.... added to cart</p>
+            <button onClick={closeToast} className="close-btn">✕</button>
         </div>
       </div>
-      <div className="timer-bar" style={{ width: `${progress}%` }} />
+        <button className="cart-btn">
+            Go to Cart
+        </button>
+      <div className={`timer-bar ${disableTransition ? "no-transition" : ""}`}
+        style={{ width: `${progress}%` }}
+        />
     </ToastWrapper>
   );
 };
@@ -57,18 +72,23 @@ const ToastNotification = () => {
 
 // Styled Components
 const ToastWrapper = styled.div`
+  
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #333;
-  color: white;
-  padding: 15px 20px;
+  bottom: 40px;
+  right: 30px;
+  background-color: #FAF9F6;
+  color: black;
+  padding: 20px 25px;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   z-index: 1000;
+
+  .message {
+    font-weight: bold;
+  }
 
   .content {
     display: flex;
@@ -85,20 +105,6 @@ const ToastWrapper = styled.div`
       display: flex;
       gap: 10px;
 
-      .cart-btn {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-
-        &:hover {
-          background-color: #218838;
-        }
-      }
-
       .close-btn {
         background: none;
         border: none;
@@ -112,12 +118,30 @@ const ToastWrapper = styled.div`
       }
     }
   }
+    .cart-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        display: block;
+
+        &:hover {
+          background-color: #218838;
+        }
+      }
 
   .timer-bar {
     height: 5px;
     background: #ff9800;
     border-radius: 2px;
     transition: width 0.1s linear; /* Smooth progress */
+
+    &.no-transition {
+      transition: none; /* Disable transition */
+    }
   }
 `;
 

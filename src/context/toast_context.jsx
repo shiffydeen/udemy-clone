@@ -16,7 +16,7 @@ export const ToastProvider = ({children}) => {
 
     const handleCartandToast = (course_name) => {
         // setCourseName(course_name)
-        setMessage(`${courseToast(course_name)}.... added to cart`)
+        setMessage(`${courseToast(course_name)}`)
         setToastOpen(true); // Show the toast
     };
 
