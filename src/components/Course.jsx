@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import {Link} from "react-router";
 import StarRating from "../components/StarRating";
 import { useCartContext } from '../context/cart_context';
+import { useToastContext } from '../context/toast_context';
 // import { useModalContext } from '../context/modal_context';
 
 const Course = (props) => {
   const {id, image, course_name, creator, actual_price, discounted_price, rating_count, rating_star, category} = props;
   const {addToCart} = useCartContext();
+  const {handleCartandToast} = useToastContext();
+  // const courseName = useRef();
   // const {openModal} = useModalContext();
 
   // const handleClick = (id, image, course_name, creator, discounted_price, category) => {
@@ -17,6 +20,13 @@ const Course = (props) => {
   //   openModal(id, image, course_name, creator, discounted_price, category)
     
   // }
+
+  const handleClick = () => {
+    addToCart(id, image, course_name, creator, discounted_price, category);
+    // handleCartandToast(course_name);
+    handleCartandToast(course_name);
+
+  }
 
   return (
     <CourseCard>
@@ -38,7 +48,7 @@ const Course = (props) => {
       </div>
       <div className='item-btns flex'>
         <Link to = {`/courses/${id}`} className = "item-btn see-details-btn">See details</Link>
-        <Link className='item-btn add-to-cart-btn' onClick={() => addToCart(id, image, course_name, creator, discounted_price, category)}>Add to cart</Link>
+        <Link className='item-btn add-to-cart-btn' onClick={handleClick}>Add to cart</Link>
       </div>
     </CourseCard>
   )

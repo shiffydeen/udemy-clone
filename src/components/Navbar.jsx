@@ -110,7 +110,7 @@ import { useSidebarContext } from "../context/sidebar_context";
 import { useCartContext } from "../context/cart_context";
 import CartHover from "./CartHover";
 
-const Navbar = ({ openCartMenu, closeCartMenu, showCart }) => {
+const Navbar = () => {
   const { total_items } = useCartContext();
   const { openSidebar } = useSidebarContext();
 
