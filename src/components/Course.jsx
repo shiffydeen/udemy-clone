@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import {Link} from "react-router";
 import StarRating from "../components/StarRating";
@@ -10,6 +10,8 @@ const Course = (props) => {
   const {id, image, course_name, creator, actual_price, discounted_price, rating_count, rating_star, category} = props;
   const {addToCart, cart} = useCartContext();
   const {handleCartandToast} = useToastContext();
+  
+  // const [isDisabled, setIsDisabled] = useState(() => cart.find(item => item.courseID === id))
   
   
   // const courseName = useRef();
@@ -36,6 +38,8 @@ const Course = (props) => {
     // console.log(id)
     return "Add to cart"
   }
+
+  const isDisabled = cart.some(item => item.courseID === id);
   
 
   return (
@@ -58,7 +62,15 @@ const Course = (props) => {
       </div>
       <div className='item-btns flex'>
         <Link to = {`/courses/${id}`} className = "item-btn see-details-btn">See details</Link>
-        <Link className={`item-btn add-to-cart-btn ${cart.find(item => item.courseID === id) ? "disabled" : ""}`} onClick={handleClick}>{inCart(id)}</Link>
+        {/* <Link className={`item-btn add-to-cart-btn ${cart.find(item => item.courseID === id) ? "disabled" : ""}`} onClick={handleClick}>{inCart(id)}</Link> */}
+        {/* <button className={`item-btn add-to-cart-btn`} disabled={isDisabled} onClick={handleClick}>{inCart(id)}</button> */}
+        <button
+          className={`item-btn add-to-cart-btn ${isDisabled ? "disabled" : ""}`}
+          disabled={isDisabled}
+          onClick={handleClick}
+        >{inCart(id)}
+        </button>
+        
       </div>
     </CourseCard>
   )
