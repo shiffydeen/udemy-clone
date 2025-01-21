@@ -8,25 +8,27 @@ const ToastNotification = () => {
   const [progress, setProgress] = useState(0);
   const [disableTransition, setDisableTransition] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
+  const [pauseProgress, setPauseProgress] = useState(false)
 
   const {isToastOpen, message, closeToast} = useToastContext()
 
   useEffect(() => {
     if (isToastOpen && message) {
         setDisableTransition(true);
-        setProgress(0);
         clearInterval(intervalId);
 
         // Allow time for the browser to apply the `no-transition` class
       const resetTransition = setTimeout(() => {
         setDisableTransition(false); // Re-enable transition
-        setProgress(2); // Start progress
       }, 50); // Small delay (50ms)
 
       let interval;
       const startProgress = () => {
         interval = setInterval(() => {
           setProgress((prev) => {
+            if (pauseProgress === true){
+                return prev;
+            }
             if (prev >= 100) {
               clearInterval(interval);
               setTimeout(closeToast, 0);
@@ -37,21 +39,22 @@ const ToastNotification = () => {
         },30);
       };
 
-      if (!isHovered) startProgress();
+      startProgress()
+
 
       return () => {
         clearInterval(interval)
         clearTimeout(resetTransition);
       };
     }
-  }, [isToastOpen, isHovered, closeToast, message]);
+  }, [isToastOpen, isHovered, closeToast, message, pauseProgress]);
 
   if (!isToastOpen || !message ) return null;
 
   return (
     <ToastWrapper
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => setPauseProgress(true)}
+      onMouseLeave={() => setPauseProgress(false)}
     >
       <div className="content">
         <div className="actions">

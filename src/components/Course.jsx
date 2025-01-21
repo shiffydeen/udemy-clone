@@ -28,6 +28,9 @@ const Course = (props) => {
   // console.log(cart)
 
   const handleClick = () => {
+    if (cart.find(item => item.courseID === id)){
+      return
+    }
     addToCart(id, image, course_name, creator, discounted_price, category);
     // handleCartandToast(course_name);
     handleCartandToast(course_name);
@@ -60,17 +63,17 @@ const Course = (props) => {
           <span className='item-price-old'>${actual_price}</span>
         </div>
       </div>
-      <div className='item-btns flex'>
+      <div className='item-btns '>
         <Link to = {`/courses/${id}`} className = "item-btn see-details-btn">See details</Link>
-        {/* <Link className={`item-btn add-to-cart-btn ${cart.find(item => item.courseID === id) ? "disabled" : ""}`} onClick={handleClick}>{inCart(id)}</Link> */}
+        <Link className={`item-btn add-to-cart-btn ${cart.find(item => item.courseID === id) ? "disabled" : ""}`} onClick={handleClick}>{inCart(id)}</Link>
         {/* <button className={`item-btn add-to-cart-btn`} disabled={isDisabled} onClick={handleClick}>{inCart(id)}</button> */}
-        <button
+        {/* <button
           className={`item-btn add-to-cart-btn ${isDisabled ? "disabled" : ""}`}
           disabled={isDisabled}
           onClick={handleClick}
         >{inCart(id)}
         </button>
-        
+         */}
       </div>
     </CourseCard>
   )
@@ -132,7 +135,7 @@ const CourseCard = styled.div`
     .item-btn{
       font-size: 15px;
       display: inline-block;
-      padding: 6px 16px;
+      padding: 6px 14px;
       font-weight: 700;
       transition: var(--transition);
       white-space: nowrap;
@@ -140,10 +143,7 @@ const CourseCard = styled.div`
       &.disabled {
       opacity: 0.6;
       cursor: not-allowed;
-      font-size: 15px;
-      display: inline-block;
-      padding: 6px 16px;
-      font-weight: 700;
+      
     }
 
       &.see-details-btn{
