@@ -109,6 +109,7 @@ import { Link } from "react-router";
 import { useSidebarContext } from "../context/sidebar_context";
 import { useCartContext } from "../context/cart_context";
 import CartHover from "./CartHover";
+import UserFunctions from "./UserFunctions";
 
 const Navbar = () => {
   const { total_items } = useCartContext();
@@ -125,8 +126,6 @@ const Navbar = () => {
             <div className="navbar-btns flex">
               <div
                 className="cart-btn"
-                // onMouseEnter={openCartMenu}
-                // onMouseLeave={closeCartMenu}
               >
                 <Link to="/cart">
                   <div className="cart-icon">
@@ -135,6 +134,12 @@ const Navbar = () => {
                 </Link>
                 <span className="item-count-badge">{total_items}</span>
                 <CartHover />
+              </div>
+              <div className="user-avatar">
+                <div className="user-id">
+                  <span>SA</span>
+                </div>
+                <UserFunctions />
               </div>
               <button
                 type="button"
@@ -163,13 +168,40 @@ const NavbarWrapper = styled.nav`
     }
   }
 
+  .navbar-btns {
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .user-avatar {
+    position: relative;
+
+
+    .user-id {
+    background: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    aligns-item: center;
+    padding: 0.5rem;
+    border-radius: 50%;
+    span {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  }
+  }
+
+  
+
   .cart-btn {
     position: relative;
-    margin-right: 18px;
     font-size: 23px;
+    border: 1px solid black;
     .cart-icon {
       cursor: pointer;
-      padding: 3px
+      padding: 4px
     }
     .item-count-badge {
       background-color: var(--clr-orange);
@@ -218,6 +250,7 @@ const NavbarWrapper = styled.nav`
 
   .sidebar-open-btn {
     transition: all 300ms ease-in-out;
+    border: 1px solid black;
     &:hover {
       opacity: 0.7;
     }
