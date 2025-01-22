@@ -27,6 +27,7 @@ const CategoriesList = () => {
 }
 
 const CategoriesListWrapper = styled.div`
+  margin-bottom: 50px;
   .categories-list-top{
     margin-bottom: 32px;
   }

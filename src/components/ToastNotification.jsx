@@ -17,10 +17,9 @@ const ToastNotification = () => {
         setDisableTransition(true);
         clearInterval(intervalId);
 
-        // Allow time for the browser to apply the `no-transition` class
       const resetTransition = setTimeout(() => {
-        setDisableTransition(false); // Re-enable transition
-      }, 50); // Small delay (50ms)
+        setDisableTransition(false); 
+      }, 50); 
 
       let interval;
       const startProgress = () => {
@@ -34,9 +33,9 @@ const ToastNotification = () => {
               setTimeout(closeToast, 0);
               return 0;
             }
-            return prev + 2; // Adjust this for smoother progress
+            return prev + 2; 
           });
-        },30);
+        },25);
       };
 
       startProgress()
@@ -58,7 +57,7 @@ const ToastNotification = () => {
     >
       <div className="content">
         <div className="actions">
-            <p><span className="message">{message}</span>.... added to cart</p>
+            <p>Adding <span className="message">{message}</span> to your cart</p>
             <button onClick={closeToast} className="close-btn">✕</button>
         </div>
       </div>
@@ -125,7 +124,7 @@ const ToastWrapper = styled.div`
     }
   }
     .cart-btn {
-        background-color: #28a745;
+        background-color: #fd9644;
         color: white;
         border: none;
         padding: 8px 12px;
@@ -136,7 +135,7 @@ const ToastWrapper = styled.div`
         display: block;
 
         &:hover {
-          background-color: #218838;
+          background-color: #ffb865;
         }
       }
 

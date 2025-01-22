@@ -83,7 +83,8 @@
   }
   
   .cart-container-footer button {
-    background: #28a745;
+    background: #fd9644;
+ 
     width: 100%;
     padding: 10px;
     display: block;
@@ -93,6 +94,7 @@
   }
 
   .cart-container-footer button:hover {
-    background: #218838;
+    background: #ffb865;
+   
   }
 

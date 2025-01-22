@@ -9,17 +9,39 @@ import {FaShoppingCart} from "react-icons/fa";
 import {RiClosedCaptioningFill} from "react-icons/ri";
 import {BiCheck} from "react-icons/bi";
 import { useCartContext } from '../context/cart_context';
+import { useToastContext } from '../context/toast_context';
+import ToastNotification from '../components/ToastNotification';
 
 const SingleCoursePage = () => {
   const {id} = useParams();
   const {fetchSingleCourse, single_course} = useCoursesContext();
-  const {addToCart} = useCartContext();
+  const {addToCart, cart} = useCartContext();
+  const {handleCartandToast} = useToastContext();
+
+  const {id: courseID, category, image, course_name, description, rating_count, rating_star, students, creator, updated_date, lang, actual_price, discounted_price, what_you_will_learn: learnItems, content} = single_course;
+
+  const handleClick = () => {
+    if (cart.find(item => item.courseID === courseID)){
+      return
+    }
+    addToCart(courseID, image, course_name, creator, discounted_price, category);
+    // handleCartandToast(course_name);
+    handleCartandToast(course_name);
+  }
+
+  const inCart = (itemId) => {
+    if (cart.find((item) => item.courseID === itemId)) return "Added to Cart"
+    // console.log(id)
+    return "Add to cart"
+  }
+
+  const isDisabled = cart.some(item => item.courseID === courseID);
 
   useEffect(() => {
     fetchSingleCourse(id);
   }, []);
 
-  const {id: courseID, category, image, course_name, description, rating_count, rating_star, students, creator, updated_date, lang, actual_price, discounted_price, what_you_will_learn: learnItems, content} = single_course;
+  
 
   return (
     <SingleCourseWrapper>
@@ -68,8 +90,8 @@ const SingleCoursePage = () => {
           </div>
 
           <div className='course-btn'>
-            <Link to = "/cart" className='add-to-cart-btn d-inline-block fw-7 bg-purple' onClick={() => addToCart(courseID, image, course_name, creator, discounted_price, category)}>
-              <FaShoppingCart /> Add to cart
+            <Link className={`add-to-cart-btn d-inline-block fw-7 bg-purple ${cart.find(item => item.courseID === courseID) ? "disabled" : ""}`} onClick={handleClick}>
+              <FaShoppingCart /> {inCart(courseID)}
             </Link>
           </div>
         </div>
@@ -107,6 +129,7 @@ const SingleCoursePage = () => {
           </ul>
         </div>
       </div>
+      <ToastNotification />
     </SingleCourseWrapper>
   )
 }
@@ -173,6 +196,12 @@ const SingleCourseWrapper = styled.div`
       margin-top: 16px;
       .add-to-cart-btn{
         padding: 12px 28px;
+
+      &.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      }
+      
         span{
           margin-left: 12px;
         }

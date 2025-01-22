@@ -6,7 +6,7 @@ import { SidebarProvider } from './context/sidebar_context.jsx'
 import { CoursesProvider } from './context/courses_context.jsx'
 import { CartProvider } from './context/cart_context.jsx'
 import { ToastProvider } from './context/toast_context.jsx'
-// import { ModalProvider } from './context/modal_context.jsx'
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
