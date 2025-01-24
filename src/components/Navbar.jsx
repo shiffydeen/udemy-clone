@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { MdMenu, MdShoppingCart } from "react-icons/md";
 import { Link } from "react-router";
@@ -10,6 +10,26 @@ import UserFunctions from "./UserFunctions";
 const Navbar = () => {
   const { total_items } = useCartContext();
   const { openSidebar } = useSidebarContext();
+  const [showUserFunctions, setShowUserFunctions] = useState(false);
+  const userAvatarRef = useRef(null); 
+
+  const toggleUserFunctions = () => {
+    setShowUserFunctions((prev) => !prev);
+  };
+
+  
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (userAvatarRef.current && !userAvatarRef.current.contains(e.target)) {
+        setShowUserFunctions(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div>
@@ -31,11 +51,17 @@ const Navbar = () => {
                 <span className="item-count-badge">{total_items}</span>
                 <CartHover />
               </div>
-              <div className="user-avatar">
+              <div 
+                ref={userAvatarRef}
+                className={`user-avatar ${showUserFunctions ? "active" : ""}`}
+                onClick={toggleUserFunctions}
+                >
                 <div className="user-id">
                   <span>SA</span>
                 </div>
-                <UserFunctions />
+                <UserFunctions 
+                isVisible={showUserFunctions} 
+                onClick={(e) => e.stopPropagation()}/> 
               </div>
               <button
                 type="button"
@@ -78,6 +104,10 @@ const NavbarWrapper = styled.nav`
     
     &:hover .user-function-container{
       display: block;
+    }
+
+    &:active .user-function-container {
+      display: block; 
     }
 
 
@@ -150,7 +180,6 @@ const NavbarWrapper = styled.nav`
     }
   }
 
- 
 
   .sidebar-open-btn {
     transition: all 300ms ease-in-out;

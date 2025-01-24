@@ -4,45 +4,28 @@ import {Link} from "react-router";
 import StarRating from "../components/StarRating";
 import { useCartContext } from '../context/cart_context';
 import { useToastContext } from '../context/toast_context';
-// import { useModalContext } from '../context/modal_context';
+
 
 const Course = (props) => {
   const {id, image, course_name, creator, actual_price, discounted_price, rating_count, rating_star, category} = props;
   const {addToCart, cart} = useCartContext();
   const {handleCartandToast} = useToastContext();
-  
-  // const [isDisabled, setIsDisabled] = useState(() => cart.find(item => item.courseID === id))
-  
-  
-  // const courseName = useRef();
-  // const {openModal} = useModalContext();
-
-  // const handleClick = (id, image, course_name, creator, discounted_price, category) => {
-  //   addToCart(id, image, course_name, creator, discounted_price, category);
-  //   console.log(props)
-  //   // console.log("hello")
-  //   openModal(id, image, course_name, creator, discounted_price, category)
-    
-  // }
-
-  // console.log(cart)
 
   const handleClick = () => {
     if (cart.find(item => item.courseID === id)){
       return
     }
     addToCart(id, image, course_name, creator, discounted_price, category);
-    // handleCartandToast(course_name);
+   
     handleCartandToast(course_name);
   }
 
   const inCart = (itemId) => {
     if (cart.find((item) => item.courseID === itemId)) return "Added to Cart"
-    // console.log(id)
     return "Add to cart"
   }
 
-  const isDisabled = cart.some(item => item.courseID === id);
+  
   
 
   return (
@@ -66,14 +49,7 @@ const Course = (props) => {
       <div className='item-btns '>
         <Link to = {`/courses/${id}`} className = "item-btn see-details-btn">See details</Link>
         <Link className={`item-btn add-to-cart-btn ${cart.find(item => item.courseID === id) ? "disabled" : ""}`} onClick={handleClick}>{inCart(id)}</Link>
-        {/* <button className={`item-btn add-to-cart-btn`} disabled={isDisabled} onClick={handleClick}>{inCart(id)}</button> */}
-        {/* <button
-          className={`item-btn add-to-cart-btn ${isDisabled ? "disabled" : ""}`}
-          disabled={isDisabled}
-          onClick={handleClick}
-        >{inCart(id)}
-        </button>
-         */}
+        
       </div>
     </CourseCard>
   )

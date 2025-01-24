@@ -3,13 +3,15 @@ import styled from 'styled-components'
 import { AiOutlineGlobal } from "react-icons/ai";
 import { useCartContext } from "../context/cart_context";
 
-const UserFunctions = () => {
+const UserFunctions = ({ isVisible }) => {
 
 const { total_items } = useCartContext();
   return (
-    <UserFunctionsWrapper>
+    <UserFunctionsWrapper 
+        className={isVisible ? "visible" : ""}
+        onClick={(e) => e.stopPropagation()}
+        >
         <div className='user-function-container'>
-
             <div className='header'>
                 <div className='flex'>
                     <span>SA</span>
@@ -87,7 +89,7 @@ const UserFunctionsWrapper = styled.div`
     max-height: 70vh;
 
     .user-function-container {
-        display: none;
+        display: ${props => (props.className === "visible" ? "block" : "none")};
     }
 
     .header {

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link, useParams } from 'react-router';
 import styled from "styled-components";
 import { useCoursesContext } from '../context/courses_context';
@@ -18,6 +18,7 @@ const SingleCoursePage = () => {
   const {addToCart, cart} = useCartContext();
   const {handleCartandToast} = useToastContext();
 
+
   const {id: courseID, category, image, course_name, description, rating_count, rating_star, students, creator, updated_date, lang, actual_price, discounted_price, what_you_will_learn: learnItems, content} = single_course;
 
   const handleClick = () => {
@@ -25,17 +26,15 @@ const SingleCoursePage = () => {
       return
     }
     addToCart(courseID, image, course_name, creator, discounted_price, category);
-    // handleCartandToast(course_name);
+   
     handleCartandToast(course_name);
   }
 
   const inCart = (itemId) => {
     if (cart.find((item) => item.courseID === itemId)) return "Added to Cart"
-    // console.log(id)
     return "Add to cart"
   }
 
-  const isDisabled = cart.some(item => item.courseID === courseID);
 
   useEffect(() => {
     fetchSingleCourse(id);
@@ -201,7 +200,7 @@ const SingleCourseWrapper = styled.div`
       opacity: 0.6;
       cursor: not-allowed;
       }
-      
+
         span{
           margin-left: 12px;
         }
