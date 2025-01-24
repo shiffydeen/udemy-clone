@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { AiOutlineGlobal } from "react-icons/ai";
 import { useCartContext } from "../context/cart_context";
+import { Link } from 'react-router';
 
 const UserFunctions = ({ isVisible }) => {
 
@@ -24,10 +25,12 @@ const { total_items } = useCartContext();
             <div className='section'>
                 <ul>
                     <li>My learning</li>
-                    <li>
-                        <div>My cart</div>
-                        <div className='total-items'>{total_items} courses</div>
-                    </li>
+                    <Link to="/cart">
+                        <li>
+                            <div>My cart</div>
+                            <div className='total-items'>{total_items} courses</div>
+                        </li>
+                    </Link>
                     <li>Wishlist</li>
                     <li>Teach on Cdemy</li>
                 </ul>
