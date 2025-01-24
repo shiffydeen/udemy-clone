@@ -7,29 +7,21 @@ import { Link } from 'react-router';
 const CartHover = () => {
 
     const {cart, total_amount, removeFromCart} = useCartContext()
-    // console.log(cart)
 
     function truncateToTwoLines(text, firstLineLength, secondLineLength) {
-        // Extract the first line
         const firstLine = text.slice(0, firstLineLength);
-      
-        // Handle the remaining text for the second line
         const remainingText = text.slice(firstLineLength).trim();
         let secondLine = remainingText.slice(0, secondLineLength);
-      
-        // Add ellipsis if the remaining text is longer than the second line limit
         if (remainingText.length > secondLineLength) {
           secondLine = secondLine.trim() + "...";
         }
-      
-        // Combine the first and second lines
         return [firstLine, secondLine].filter(Boolean).join("\n");
       }
 
 if (cart.length < 1) {
     return (
         <div className='cart-container'>
-            <h2>Your cart is empty</h2>
+            <p>Your cart is empty</p>
         </div>
     )
 }
@@ -45,8 +37,6 @@ if (cart.length < 1) {
                         </div>
                         <div className='cart-item-info'>
                             <p className='cart-item-title'>{truncateToTwoLines(course_name, 20, 20)}</p>
-                            {/* <p className='cart-item-title'>hello</p> */}
-                           
                             <p className='cart-item-author'>{creator}</p>
                             <p className='cart-item-price'>${discounted_price}</p>
                         </div>

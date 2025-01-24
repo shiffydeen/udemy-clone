@@ -77,6 +77,7 @@ const UserFunctionsWrapper = styled.div`
     position: absolute;
     top: 40px;
     right: -100%;
+    z-index: 1000;
     background-color: #fff;
     box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.61);
     -webkit-box-shadow: 0px 0px 10px -1px rgba(0,0,0,0.61);
@@ -87,6 +88,9 @@ const UserFunctionsWrapper = styled.div`
     white-space: nowrap;
     overflow-y: auto;
     max-height: 70vh;
+
+   
+
 
     .user-function-container {
         display: ${props => (props.className === "visible" ? "block" : "none")};

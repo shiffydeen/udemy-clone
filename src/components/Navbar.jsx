@@ -59,8 +59,7 @@ const Navbar = () => {
                 <div className="user-id">
                   <span>SA</span>
                 </div>
-                <UserFunctions 
-                isVisible={showUserFunctions} 
+                <UserFunctions  
                 onClick={(e) => e.stopPropagation()}/> 
               </div>
               <button
@@ -130,15 +129,17 @@ const NavbarWrapper = styled.nav`
   .cart-btn {
     position: relative;
     font-size: 23px;
-  
-    &:hover .cart-container{
-    display: block;
-  }
 
+    &:hover .cart-container{
+          display: block;
+      }
+  
+    
     .cart-icon {
       margin-top: 7px;
       cursor: pointer;
-      padding-top: 4px
+      padding-top: 4px;
+      
     }
     .item-count-badge {
       background-color: var(--clr-orange);
